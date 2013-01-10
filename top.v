@@ -9,17 +9,11 @@
 );
 
     wire [10:0] x, y;
-    vga_sync vga_sync(.clk(clk),
+    vga_sync vga0(.clk(clk),
         .hsync(hsync), .vsync(vsync),
         .x(x), .y(y));
-
-    assign rgb[0] = y[3] | (x == 256);
-    assign rgb[1] = y[3] | (x == 256);
-    assign rgb[2] = y[3] | (x == 256);
-    assign rgb[3] = (x[5] ^ x[6]) | (x == 256);
-    assign rgb[4] = (x[5] ^ x[6]) | (x == 256);
-    assign rgb[5] = (x[5] ^ x[6]) | (x == 256);
-    assign rgb[6] = x[4] | (x == 256);
-    assign rgb[7] = x[4] | (x == 256);
+    
+    graphic g0(.clk(clk),
+        .x(x), .y(y), .rgb(rgb));
 
 endmodule

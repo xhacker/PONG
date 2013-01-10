@@ -18,15 +18,15 @@ module vga_sync
     
     // VS: in lines
     localparam V_PW   = 2;
-    localparam V_BP   = 29;
+    localparam V_BP   = 33;
     localparam V_DISP = 480;
     localparam V_FP   = 10;
     localparam V_S    = V_PW + V_BP + V_DISP + V_FP;
 
     clk_pixel clk0(clk, clk_pixel);
     
-    wire cnt_x_maxed = (cnt_x == H_S);
-    wire cnt_y_maxed = (cnt_y == V_S);
+    wire cnt_x_maxed = (cnt_x == H_S - 1);
+    wire cnt_y_maxed = (cnt_y == V_S - 1);
 
     initial begin
         cnt_x <= 0;
@@ -54,8 +54,8 @@ module vga_sync
     assign hsync = ~in_hs;
     assign vsync = ~in_vs;
     
-    // the current pixel TODO
-    assign x = cnt_x;
-    assign y = cnt_y;
+    // the current pixel
+    assign x = cnt_x - (H_PW + H_BP);
+    assign y = cnt_y - (V_PW + V_BP);
 
 endmodule
