@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module graphic(
-    input wire  clk,
+    input wire  clk, miao,
     input wire  [10:0] x, y,
     input wire  [1:0]  btn1, btn2,
     output wire [7:0]  rgb
@@ -16,9 +16,11 @@ module graphic(
     localparam COLOR_NULL = 8'b00000000;
     
     // sizes
-    localparam BAR_H  = 11'd60;
-    localparam BAR_W  = 11'd5;
-    localparam BALL_R = 11'd5;
+    reg [10:0] BAR_H   = 11'd60;
+    localparam BAR_W   = 11'd5;
+    localparam BALL_R  = 11'd5;
+    localparam L_BOUND = 11'd60;
+    localparam R_BOUND = 11'd580;
     
     // velocities
     localparam BAR_V  = 10'd1;
@@ -33,7 +35,9 @@ module graphic(
         lbar_y = 11'd240;
         rbar_y = 11'd240;
         ball_move_x = 1'b1;
-        ball_move_y = 1'b1;        
+        ball_move_y = 1'b1;
+        lscore = 1'b0;
+        rscore = 1'b0;
     end
     
     reg [7:0] rgb_now;
@@ -42,10 +46,14 @@ module graphic(
     
         if (clk_frame) begin
             // controls
-            if (btn1[0] && lbar_y > 40  + BAR_H / 2) lbar_y = lbar_y - BAR_V;
-            if (btn1[1] && lbar_y < 440 - BAR_H / 2) lbar_y = lbar_y + BAR_V;
-            if (btn2[0] && rbar_y > 40  + BAR_H / 2) rbar_y = rbar_y - BAR_V;
-            if (btn2[1] && rbar_y < 440 - BAR_H / 2) rbar_y = rbar_y + BAR_V;
+            if (btn1[0] && lbar_y > L_BOUND + BAR_H / 2) lbar_y = lbar_y - BAR_V;
+            if (btn1[1] && lbar_y < R_BOUND - BAR_H / 2) lbar_y = lbar_y + BAR_V;
+            if (btn2[0] && rbar_y > L_BOUND + BAR_H / 2) rbar_y = rbar_y - BAR_V;
+            if (btn2[1] && rbar_y < R_BOUND - BAR_H / 2) rbar_y = rbar_y + BAR_V;
+            if (miao)
+                BAR_H  = 11'd150;
+            else
+                BAR_H  = 11'd60;
             
             // ball move
             if (ball_move_x) ball_x = ball_x + BALL_V;
@@ -56,33 +64,37 @@ module graphic(
             // coliision detect
             if (ball_y == 40 || ball_y == 440)
                 ball_move_y = ~ball_move_y;
-            if (ball_x == 40 && ball_y >= lbar_y - BAR_H / 2 && ball_y <= lbar_y + BAR_H / 2)
+            if (ball_x == L_BOUND && ball_y >= lbar_y - BAR_H / 2 && ball_y <= lbar_y + BAR_H / 2)
                 ball_move_x = ~ball_move_x;
-            if (ball_x == 600 && ball_y >= rbar_y - BAR_H / 2 && ball_y <= rbar_y + BAR_H / 2)
+            if (ball_x == R_BOUND && ball_y >= rbar_y - BAR_H / 2 && ball_y <= rbar_y + BAR_H / 2)
                 ball_move_x = ~ball_move_x;
             
             // bound detect
-            if (ball_x < 0 || ball_x > 640) begin
+            if (ball_x < 3 || ball_x > 637) begin
+                if (ball_x < 3)
+                    rscore = rscore + 1'b1;
+                else if (ball_x > 637)
+                    lscore = lscore + 1'b1;
                 ball_x = 320;
                 ball_y = 240;
-                ball_move_x = 1'b1;
+                ball_move_x = (rscore > lscore);
                 ball_move_y = 1'b1;
             end
         end
         
-        if (x < 640 && y < 480) begin
+        if (x >= 0 && y >= 0 && x < 640 && y < 480) begin
             
             rgb_now <= COLOR_BG;
             
             // border
-            if ((y == 40 || y == 440) && (x >= 40 && x <= 600))
+            if ((y == 40 || y == 440) && (x >= L_BOUND && x <= R_BOUND))
                 rgb_now <= COLOR_LINE;
             
             // bars
-            if ((x >= 40 && x <= 40 + BAR_W) &&
+            if ((x >= L_BOUND && x <= L_BOUND + BAR_W) &&
                 (y >= lbar_y - BAR_H / 2 && y <= lbar_y + BAR_H / 2))
                 rgb_now <= COLOR_LBAR;
-            if ((x >= 600 - BAR_W && x <= 600) &&
+            if ((x >= R_BOUND - BAR_W && x <= R_BOUND) &&
                 (y >= rbar_y - BAR_H / 2 && y <= rbar_y + BAR_H / 2))
                 rgb_now <= COLOR_RBAR;
             
@@ -90,6 +102,14 @@ module graphic(
             if ((x >= ball_x - BALL_R && x <= ball_x + BALL_R) &&
                 (y >= ball_y - BALL_R && y <= ball_y + BALL_R))
                 rgb_now <= COLOR_BALL;
+             
+            // score
+            if (x >= 10 && x <= 20)
+                if (y / 10 % 2 == 1 && lscore > y / 10 / 2)
+                    rgb_now <= COLOR_LBAR;
+            if (x >= 620 && x <= 630)
+                if (y / 10 % 2 == 1 && rscore > y / 10 / 2)
+                    rgb_now <= COLOR_RBAR;
                 
         end else begin
             rgb_now <= COLOR_NULL;
