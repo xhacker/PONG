@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 
 module graphic(
-    input wire  clk, miao,
+    input wire  clk,
+    input wire  [1:0]  miao,
     input wire  [10:0] x, y,
     input wire  [1:0]  btn1, btn2,
     output wire [7:0]  rgb
@@ -17,10 +18,12 @@ module graphic(
     
     // sizes
     reg [10:0] BAR_H   = 11'd60;
-    localparam BAR_W   = 11'd5;
+    reg [10:0] BAR_W   = 11'd5;
     localparam BALL_R  = 11'd5;
     localparam L_BOUND = 11'd60;
     localparam R_BOUND = 11'd580;
+    localparam U_BOUND = 11'd40;
+    localparam D_BOUND = 11'd440;
     
     // velocities
     localparam BAR_V  = 10'd1;
@@ -46,14 +49,15 @@ module graphic(
     
         if (clk_frame) begin
             // controls
-            if (btn1[0] && lbar_y > L_BOUND + BAR_H / 2) lbar_y = lbar_y - BAR_V;
-            if (btn1[1] && lbar_y < R_BOUND - BAR_H / 2) lbar_y = lbar_y + BAR_V;
-            if (btn2[0] && rbar_y > L_BOUND + BAR_H / 2) rbar_y = rbar_y - BAR_V;
-            if (btn2[1] && rbar_y < R_BOUND - BAR_H / 2) rbar_y = rbar_y + BAR_V;
-            if (miao)
-                BAR_H  = 11'd150;
-            else
-                BAR_H  = 11'd60;
+            if (btn1[0] && lbar_y > U_BOUND + BAR_H / 2) lbar_y = lbar_y - BAR_V;
+            if (btn1[1] && lbar_y < D_BOUND - BAR_H / 2) lbar_y = lbar_y + BAR_V;
+            if (btn2[0] && rbar_y > U_BOUND + BAR_H / 2) rbar_y = rbar_y - BAR_V;
+            if (btn2[1] && rbar_y < D_BOUND - BAR_H / 2) rbar_y = rbar_y + BAR_V;
+            
+            if (miao[0]) BAR_H  = 11'd150;
+            else BAR_H  = 11'd60;
+            if (miao[1]) BAR_W  = 11'd20;
+            else BAR_W  = 11'd5;
             
             // ball move
             if (ball_move_x) ball_x = ball_x + BALL_V;
@@ -62,11 +66,13 @@ module graphic(
             else ball_y = ball_y - BALL_V;
             
             // coliision detect
-            if (ball_y == 40 || ball_y == 440)
+            if (ball_y <= U_BOUND + BALL_R || ball_y >= D_BOUND - BALL_R)
                 ball_move_y = ~ball_move_y;
-            if (ball_x == L_BOUND && ball_y >= lbar_y - BAR_H / 2 && ball_y <= lbar_y + BAR_H / 2)
+            if (ball_x == L_BOUND + BAR_W + BALL_R &&
+                ball_y + BALL_R >= lbar_y - BAR_H / 2 && ball_y - BALL_R <= lbar_y + BAR_H / 2)
                 ball_move_x = ~ball_move_x;
-            if (ball_x == R_BOUND && ball_y >= rbar_y - BAR_H / 2 && ball_y <= rbar_y + BAR_H / 2)
+            if (ball_x == R_BOUND - BAR_W - BALL_R &&
+                ball_y + BALL_R >= rbar_y - BAR_H / 2 && ball_y - BALL_R <= rbar_y + BAR_H / 2)
                 ball_move_x = ~ball_move_x;
             
             // bound detect
@@ -104,11 +110,11 @@ module graphic(
                 rgb_now <= COLOR_BALL;
              
             // score
-            if (x >= 10 && x <= 20)
-                if (y / 10 % 2 == 1 && lscore > y / 10 / 2)
+            if (x >= 6 && x <= 12)
+                if (y / 6 % 2 == 1 && lscore > y / 6 / 2)
                     rgb_now <= COLOR_LBAR;
-            if (x >= 620 && x <= 630)
-                if (y / 10 % 2 == 1 && rscore > y / 10 / 2)
+            if (x >= 628 && x <= 634)
+                if (y / 6 % 2 == 1 && rscore > y / 6 / 2)
                     rgb_now <= COLOR_RBAR;
                 
         end else begin
