@@ -1,7 +1,7 @@
 module vga_sync
 (
     input wire clk,
-    output wire hs, vs
+    output wire hsync, vsync
 );
 
     reg  [10:0] cnt_x;
@@ -44,13 +44,14 @@ module vga_sync
             cnt_x <= cnt_x + 1;
     end
 
+    // check whether is a sync signal
     always @(posedge clk_25mhz) begin
         in_hs = (cnt_x < H_PW);
         in_vs = (cnt_y < V_PW);
     end
 
     // vga sync needs a low pulse
-    assign hs = ~in_hs;
-    assign vs = ~in_vs;
+    assign hsync = ~in_hs;
+    assign vsync = ~in_vs;
 
 endmodule

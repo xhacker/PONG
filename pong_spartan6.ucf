@@ -1,0 +1,17 @@
+NET "clk"      LOC = "V10";
+NET "reset"    LOC = "B8";
+NET "btn1[0]"  LOC = "C4";
+NET "btn1[1]"  LOC = "D9";
+NET "btn2[0]"  LOC = "C9";
+NET "btn2[1]"  LOC = "A8";
+
+NET "hsync"    LOC = "N6";
+NET "vsync"    LOC = "P7";
+NET "red[0]"   LOC = "U7";
+NET "red[1]"   LOC = "V7";
+NET "red[2]"   LOC = "N7";
+NET "grn[0]"   LOC = "P8";
+NET "grn[1]"   LOC = "T6";
+NET "grn[2]"   LOC = "V6";
+NET "blu[0]"   LOC = "R7";
+NET "blu[1]"   LOC = "T7";
