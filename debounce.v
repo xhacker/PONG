@@ -6,7 +6,7 @@ module debounce(
     output reg click
 );
 
-    reg [2:0] cnt;
+    reg [3:0] cnt;
     wire clk_1ms;
 
     localparam threshold = 10;
@@ -21,10 +21,9 @@ module debounce(
         end
         else begin
             if (cnt < threshold) begin
-                cnt = cnt + 1;
+                cnt = cnt + 1'b1;
                 click = 0;
-            end
-            else begin
+            end else begin
                 click = 1;
             end
         end

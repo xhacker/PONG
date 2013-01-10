@@ -10,17 +10,17 @@ module vga_sync
     wire clk_pixel;
 
     // HS: in pixels
-    localparam H_PW   = 96; // pulse width
-    localparam H_BP   = 48;  // back porch
-    localparam H_DISP = 640; // display
-    localparam H_FP   = 16;  // front porch
+    localparam H_PW   = 10'd96;  // pulse width
+    localparam H_BP   = 10'd48;  // back porch
+    localparam H_DISP = 10'd640; // display
+    localparam H_FP   = 10'd16;  // front porch
     localparam H_S    = H_PW + H_BP + H_DISP + H_FP; // sync pulse
     
     // VS: in lines
-    localparam V_PW   = 2;
-    localparam V_BP   = 33;
-    localparam V_DISP = 480;
-    localparam V_FP   = 10;
+    localparam V_PW   = 10'd2;
+    localparam V_BP   = 10'd33;
+    localparam V_DISP = 10'd480;
+    localparam V_FP   = 10'd10;
     localparam V_S    = V_PW + V_BP + V_DISP + V_FP;
 
     clk_pixel clk0(clk, clk_pixel);

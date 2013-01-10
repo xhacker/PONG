@@ -1,10 +1,13 @@
 NET "clk"      LOC = "V10";
-NET "reset"    LOC = "B8";
+// NET "reset"    LOC = "B8";
+
+// buttons
 NET "btn1[0]"  LOC = "C4";
 NET "btn1[1]"  LOC = "D9";
 NET "btn2[0]"  LOC = "C9";
 NET "btn2[1]"  LOC = "A8";
 
+// vga sync
 NET "hsync"    LOC = "N6";
 NET "vsync"    LOC = "P7";
 
