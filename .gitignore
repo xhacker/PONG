@@ -161,3 +161,75 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+##############
+## Xilinx ISE
+##############
+
+# intermediate build files
+*.bgn
+*.bit
+*.bld
+*.cmd
+*.cmd_log
+*.drc
+*.exe
+*.ini
+*.ll
+*.log
+*.lso
+*.msd
+*.msk
+*.ncd
+*.ngc
+*.ngd
+*.ngr
+*.pad
+*.par
+*.pcf
+*.prj
+*.ptwx
+*.rbb
+*.rbd
+*.stx
+*.syr
+*.twr
+*.twx
+*.unroutes
+*.ut
+*.wdb
+*.xmsgs
+*.xwbt
+*.xpi
+*.xsl
+*.xst
+*_bitgen.xwbt
+*_envsettings.html
+*_map.map
+*_map.mrp
+*_map.ngm
+*_map.xrpt
+*_ngdbuild.xrpt
+*_pad.csv
+*_pad.txt
+*_par.xrpt
+*_summary.html
+*_summary.xml
+*_usage.xml
+*_xst.xrpt
+
+# project-wide generated files
+*.gise
+par_usage_statistics.html
+usage_statistics_webtalk.html
+webtalk.log
+webtalk_pn.xml
+webtalk_impact.xml
+
+# generated folders
+iseconfig/
+xlnx_auto_0_xdb/
+xst/
+isim/
+_ngo/
+_xmsgs/
