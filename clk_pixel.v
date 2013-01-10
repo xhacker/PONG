@@ -1,15 +1,15 @@
 `timescale 1ns / 1ps
 
-module clk_25mhz(
+module clk_pixel(
     input wire clk,
-    output reg clk_25mhz
+    output reg clk_pixel
 );
 
     reg cnt;
 
     initial begin
         cnt <= 0;
-        clk_25mhz <= 0;
+        clk_pixel <= 0;
     end
 
     always @(posedge clk)
@@ -17,7 +17,7 @@ module clk_25mhz(
         if (cnt == 1)
             begin
                 cnt <= 0;
-                clk_25mhz <= ~clk_25mhz;
+                clk_pixel <= ~clk_pixel;
             end
         else
             cnt <= 1;

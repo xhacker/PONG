@@ -2,10 +2,10 @@
 
 module sync_test;
 	// Outputs
-	wire hs;
-	wire vs;
+	wire hsync;
+	wire vsync;
     
-    reg    clk;
+    reg clk;
     parameter PERIOD = 10;
     
     initial
@@ -17,8 +17,8 @@ module sync_test;
 	// Instantiate the Unit Under Test (UUT)
 	vga_sync uut (
 		.clk(clk), 
-		.hs(hs), 
-		.vs(vs)
+		.hsync(hsync), 
+		.vsync(vsync)
 	);
       
 endmodule

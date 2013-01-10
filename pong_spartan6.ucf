@@ -7,11 +7,15 @@ NET "btn2[1]"  LOC = "A8";
 
 NET "hsync"    LOC = "N6";
 NET "vsync"    LOC = "P7";
-NET "red[0]"   LOC = "U7";
-NET "red[1]"   LOC = "V7";
-NET "red[2]"   LOC = "N7";
-NET "grn[0]"   LOC = "P8";
-NET "grn[1]"   LOC = "T6";
-NET "grn[2]"   LOC = "V6";
-NET "blu[0]"   LOC = "R7";
-NET "blu[1]"   LOC = "T7";
+
+// Red: 3 bits
+NET "rgb[0]"   LOC = "U7";
+NET "rgb[1]"   LOC = "V7";
+NET "rgb[2]"   LOC = "N7";
+// Green: 3 bits
+NET "rgb[3]"   LOC = "P8";
+NET "rgb[4]"   LOC = "T6";
+NET "rgb[5]"   LOC = "V6";
+// Blue: 2 bits
+NET "rgb[6]"   LOC = "R7";
+NET "rgb[7]"   LOC = "T7";
