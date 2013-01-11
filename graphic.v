@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module graphic(
-    input wire  clk,
+    input wire  clk, reset,
     input wire  [1:0]  miao,
     input wire  [10:0] x, y,
     input wire  [1:0]  btn1, btn2,
@@ -58,6 +58,10 @@ module graphic(
             else BAR_H  = 11'd60;
             if (miao[1]) BAR_W  = 11'd20;
             else BAR_W  = 11'd5;
+            if (reset) begin
+                lscore = 0;
+                rscore = 0;
+            end
             
             // ball move
             if (ball_move_x) ball_x = ball_x + BALL_V;

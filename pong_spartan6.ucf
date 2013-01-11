@@ -5,6 +5,7 @@ NET "btn1[0]"  LOC = "A8";
 NET "btn1[1]"  LOC = "D9";
 NET "btn2[0]"  LOC = "C4";
 NET "btn2[1]"  LOC = "C9";
+NET "reset"    LOC = "B8";
 
 NET "miao[0]"  LOC = "T5";
 NET "miao[1]"  LOC = "V8";
