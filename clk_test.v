@@ -13,12 +13,12 @@ module clk_test;
         #(PERIOD / 2) clk = ~clk;
 
     // Outputs
-    wire clk_25mhz;
+    wire clk_pixel;
 
     // Instantiate the Unit Under Test (UUT)
-    clk_25mhz uut (
+    clk_pixel uut (
         .clk(clk),
-        .clk_25mhz(clk_25mhz)
+        .clk_pixel(clk_pixel)
     );
 
 endmodule
