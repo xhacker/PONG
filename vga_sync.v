@@ -15,7 +15,7 @@ module vga_sync
     localparam H_DISP = 10'd640; // display
     localparam H_FP   = 10'd16;  // front porch
     localparam H_S    = H_PW + H_BP + H_DISP + H_FP; // sync pulse
-    
+
     // VS: in lines
     localparam V_PW   = 10'd2;
     localparam V_BP   = 10'd33;
@@ -24,7 +24,7 @@ module vga_sync
     localparam V_S    = V_PW + V_BP + V_DISP + V_FP;
 
     clk_pixel clk0(clk, clk_pixel);
-    
+
     wire cnt_x_maxed = (cnt_x == H_S - 1);
     wire cnt_y_maxed = (cnt_y == V_S - 1);
 
@@ -44,7 +44,7 @@ module vga_sync
             cnt_x <= cnt_x + 1'b1;
     end
 
-    // check whether is a sync signal
+    // check whether currently in a sync signal
     always @(posedge clk_pixel) begin
         in_hs = (cnt_x < H_PW);
         in_vs = (cnt_y < V_PW);
@@ -53,8 +53,8 @@ module vga_sync
     // vga sync needs a low pulse
     assign hsync = ~in_hs;
     assign vsync = ~in_vs;
-    
-    // the current pixel
+
+    // output the current pixel
     assign x = cnt_x - (H_PW + H_BP);
     assign y = cnt_y - (V_PW + V_BP);
 

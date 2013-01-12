@@ -1,4 +1,6 @@
 `timescale 1ns / 1ps
+
+// generate a 1 ms (1 KHz) clock
 module timer_1ms(
     input wire clk,
     output reg clk_1ms
@@ -12,7 +14,7 @@ module timer_1ms(
     end
 
     always @(posedge clk) begin
-        if (cnt >= 25000) begin
+        if (cnt >= 50000) begin
             cnt <= 0;
             clk_1ms <= ~clk_1ms;
         end else begin

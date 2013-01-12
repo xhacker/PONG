@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+// generate a 25 MHz pixel clock
 module clk_pixel(
     input wire clk,
     output reg clk_pixel
